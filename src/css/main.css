@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    background-color: white;
+    color: black;
+    height:100%;
+    margin: 0;
+}
+
+.header{
+    padding: 1%;
+    background-color: black;
+    color:white;
+}
+
+.footer {
+    padding: 1%;
+    background-color: black;
+    color:white;
+}
