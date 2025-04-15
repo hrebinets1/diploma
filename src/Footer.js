@@ -5,8 +5,8 @@ import logo from './images/logo.png'
 function Footer(){
     return (
         <footer className="footer">
-            <nav>
-                <img src={logo} alt="Лого" style={{ height: '20px' }}></img>
+            <nav className='footer-nav'>
+                <img className="img" src={logo} alt="Лого" style={{ height: '20px' }}></img>
                 <a href='/'>Сайт</a>
             </nav>
             <p>Це підвал сайту!</p>

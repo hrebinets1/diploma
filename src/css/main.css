@@ -1,23 +1,47 @@
-*{
-    margin: 0;
-    padding: 0;
-}
-
-html, body{
-    background-color: white;
+html, body {
+    background-color: #FF7F50;
     color: black;
     height:100%;
-    margin: 0;
+    margin: 1%;
+}
+
+.img {
+    margin-right: 5px;
 }
 
 .header{
     padding: 1%;
-    background-color: black;
+    background-color: #FFD700;
     color:white;
 }
 
 .footer {
     padding: 1%;
-    background-color: black;
-    color:white;
+    background-color: #FF8C00;
+    color:black;
+}
+
+.center-text {
+    text-align: center
+}
+
+.header-nav {
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5 rem;
+}
+
+.header-nav a {
+    text-decoration: none;
+}
+
+.footer-nav a {
+    text-decoration: none;
 }

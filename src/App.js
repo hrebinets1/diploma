@@ -9,7 +9,9 @@ function App(){
     <Router>
       <div>
         <Header />
-        <h1>Main text App</h1>
+        <h1 className='center-text'>Головна сторінка</h1>
+        <h2 className='center-text'>Про себе</h2>
+
         <Footer />
       </div>
     </Router>
