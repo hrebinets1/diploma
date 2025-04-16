@@ -1,12 +1,12 @@
 import React from 'react'
 
-function About(){
+function Vocabulary(){
     return (
         <div className='main-text'>
-            <h1>about us!</h1>
+            <h1>Vocabulary page!</h1>
 
         </div>
     );
 }
 
-export default About;
+export default Vocabulary;

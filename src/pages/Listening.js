@@ -1,12 +1,12 @@
 import React from 'react'
 
-function About(){
+function Listening(){
     return (
         <div className='main-text'>
-            <h1>about us!</h1>
+            <h1>Listening page!</h1>
 
         </div>
     );
 }
 
-export default About;
+export default Listening;

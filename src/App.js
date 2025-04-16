@@ -1,17 +1,36 @@
-import React from 'react'
+import React from 'react';
 import Header from './Header';  
 import Footer from './Footer';
-import About from './pages/About'
+import Hello from './Hello';
+import About from './pages/About';
+import Reading from './pages/Reading';
+import Vocabulary from './pages/Vocabulary';
+import Listening from './pages/Listening';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App(){
-  return(
+function Home() {
+  return (
+    <div>
+      <h1 className='center-text'>Головна сторінка</h1>
+      <h2 className='center-text'>Про себе</h2>
+      <Hello className="main-text" />
+    </div>
+  );
+}
+
+function App() {
+  return (
     <Router>
       <div>
         <Header />
-        <h1 className='center-text'>Головна сторінка</h1>
-        <h2 className='center-text'>Про себе</h2>
-
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/reading" element={<Reading/>} />
+          <Route path="/listening" element={<Listening />}/>
+          <Route path="/vocabulary"  element={<Vocabulary />}/>
+        </Routes>
         <Footer />
       </div>
     </Router>
