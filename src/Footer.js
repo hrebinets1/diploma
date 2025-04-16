@@ -9,7 +9,7 @@ function Footer(){
             <nav className='footer-nav'>
             <ul>
                 <li><img className="img" src={logo} alt="Лого" style={{ height: '20px' }}></img></li>
-                <li><Link to='/'>Сайт</Link></li>
+                <li><Link to='/'>Веб-застосунок</Link></li>
             </ul>
             <ul>    
 
