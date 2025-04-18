@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/main.css';
 
 const quizzes = {
   general: {
-    title: "A Reading",
+    title: "A Listening",
     preview: "Перегляньте відео та дайте відповіді на запитання.",
     readingText: (
         <div className="video-wrapper">
@@ -33,7 +33,7 @@ const quizzes = {
     ],
   },
   literature: {
-    title: "B Reading",
+    title: "B Listening",
     preview: "Прочитайте текст та дайте відповіді на запитання.",
     readingText: "This quiz focuses on literature. Choose the correct author or work.",
     questions: [
@@ -52,6 +52,10 @@ const quizzes = {
 };
 
 const Listening = () => {
+  useEffect(() => {
+    document.title = "Listening page";
+  }, [] );
+
   const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);

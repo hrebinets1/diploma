@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import React, { useState } from 'react';
 import '../css/main.css';
 
@@ -39,6 +40,8 @@ const quizzes = {
 };
 
 const Reading = () => {
+
+
   const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -94,6 +97,10 @@ const Reading = () => {
     setIsConfirmed(false);
     setAnswersHistory([]);
   };
+
+  useEffect(() => {
+    document.title = "Reading skills";
+  }, [] );
 
   return (
     <div>

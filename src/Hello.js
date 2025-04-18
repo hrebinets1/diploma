@@ -1,7 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './css/main.css'
 
 function Hello(){
+    useEffect(() => {
+        document.title = "Головна сторінка";
+    }, [] );
+
     return (
         <div className='main-text'>
             <h2>Вітаємо Вас на вебзастосунку для вивчення англійської мови!

@@ -17,6 +17,7 @@ function Footer(){
                 <li><Link to='/reading'>Reading</Link></li>
                 <li><Link to='listening'>Listening</Link></li>
                 <li><Link to='vocabulary'>Vocabulary</Link></li>
+                <li><Link to='skills'>Skills</Link></li>
             </ul>
             </nav>
             <p>Це підвал сайту!</p>

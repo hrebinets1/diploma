@@ -11,12 +11,12 @@ function Header(){
                 <li><img className="img" src={logo} alt="Лого" style={{ height: '20px' }}></img></li>
                 <li><Link to='/'>Веб-застосунок</Link></li>
             </ul>
-            <ul>    
-                
+            <ul>                
                 <li><Link to='/about'>Про нас</Link></li>
                 <li><Link to='/reading'>Reading</Link></li>
                 <li><Link to='listening'>Listening</Link></li>
                 <li><Link to='vocabulary'>Vocabulary</Link></li>
+                <li><Link to='skills'>Skills</Link></li>
             </ul>
             </nav>
         </header>
