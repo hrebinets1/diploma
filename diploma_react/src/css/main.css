@@ -1,0 +1,15 @@
+html, body {
+    background-color: #FFFFFF;
+    color: black;
+    height: 100%;
+    width: 100%;
+    margin: 2px;
+}
+
+.img {
+    margin-right: 5px;
+}
+
+.center-text {
+    text-align: center
+}
