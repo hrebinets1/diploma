@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список тестов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .test {
+            margin-bottom: 40px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .question {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #007BFF;
+        }
+        .options {
+            list-style: none;
+            padding-left: 0;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .error-message {
+            color: #a94442;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тесты</h1>
+
+    {% for test in tests %}
+        <div class="test">
+            <h2>{{ test.title }}</h2>
+            <p>{{ test.description }}</p>
+
+            {% for question in test.questions.all %}
+                <div class="question">
+                    <strong>Вопрос:</strong> {{ question.text }}
+                    <ul class="options">
+                        {% for option in question.options.all %}
+                            <li class="{% if option.is_correct %}correct{% endif %}">
+                                {{ option.number }}. {{ option.text }}
+                                {% if option.is_correct %} ✔{% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if question.error_messages.first %}
+                        <div class="error-message">
+                            <em>Комментарий при ошибке:</em> {{ question.error_messages.first.message }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% empty %}
+        <p>Нет доступных тестов.</p>
+    {% endfor %}
+</body>
+</html>

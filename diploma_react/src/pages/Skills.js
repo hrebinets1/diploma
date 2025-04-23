@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import reading from '../images/reading.png';
+import listening from '../images/listening.png';
 
 
 const Skills = () => {
@@ -7,17 +9,16 @@ const Skills = () => {
     useEffect(() => {
         document.title = "Skill choosing";
     }, [] );
-    
-    const navigate = useNavigate();
 
-    const reading = "/reading";
-    const listening = "/listening";
 
     return (
-        <div className='main-text'>
-            <h1>Оберіть, з чим бажаєте попрактикуватись</h1>
-            <button onClick={() => navigate(reading)}>Reading</button>
-            <button onClick={() => navigate(listening)}>Listening</button>
+        <div className='grammar'>
+            <h2>Оберіть, з чим бажаєте попрактикуватись</h2>
+            <h2>Читання</h2>
+            <Link to='/reading'><img className="img" src={reading} alt="Reading" style={{height: "200px", width: "600px"}}/></Link>
+            <h2>Аудіювання</h2>
+            <Link to='/listening'><img className="img" src={listening} alt="Listening" style={{height: "200px", width: "600px"}}/></Link>
+            
         </div>
     );
 }

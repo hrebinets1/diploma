@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import React, { useState } from 'react';
 import '../css/main.css';
+import reading from '../images/reading.png';
+import listening from '../images/listening.png';
 
 const quizzes = {
   general: {
@@ -19,6 +21,7 @@ const quizzes = {
         correct: 2,
       },
     ],
+    imageSrc: reading,
   },
   literature: {
     title: "B Reading",
@@ -36,6 +39,7 @@ const quizzes = {
         correct: 2,
       },
     ],
+    imageSrc: listening,
   },
 };
 
@@ -105,19 +109,29 @@ const Reading = () => {
   return (
     <div>
       <main className="main-text">
-        {!selected && (
-          <div className="center-text">
-            <h2>Оберіть розділ, який бажаєте пройти</h2>
-            {Object.entries(quizzes).map(([key, quiz]) => (
-              <button
-                key={key}
-                onClick={() => handleQuizSelect(key)}
-                style={{ margin: '5px', padding: '10px', cursor: 'pointer' }}
-              >
-                {quiz.title}
-              </button>
-            ))}
-          </div>
+      {!selected && (
+            <div className="center-text">
+                <h2>Оберіть розділ, який бажаєте пройти</h2>
+                {Object.entries(quizzes).map(([key, quiz]) => (
+                <div
+                    key={key}
+                    onClick={() => handleQuizSelect(key)}
+                    style={{
+                    display: 'inline-block',
+                    margin: '10px',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    }}
+                >
+                    <img
+                    src={quiz.imageSrc}
+                    alt={quiz.title}
+                    style={{height: "200px", width: "600px", display: 'flex', direction: 'column'}}
+                    />
+                    <div>{quiz.title}</div>
+                </div>
+                ))}
+            </div>
         )}
 
         {selected && !showResult && (

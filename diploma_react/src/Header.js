@@ -18,6 +18,7 @@ const Header = () => {
                 <Link to='/register'>Register</Link>
                 <Link to='/vocabulary'>Vocabulary</Link>
                 <Link to='/skills'>Skills</Link>
+                <Link to='/grammar'>Grammar</Link>
             </nav>
 
             <button className='header-button' onClick={() => setOpen(!isOpen)}>

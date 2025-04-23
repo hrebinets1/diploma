@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
-import React, { useState } from 'react';
+import { useEffect, React, useState } from 'react';
+
 import '../css/main.css';
 import reading from '../images/reading.png';
 import listening from '../images/listening.png';
+import axios from 'axios';
 
 const quizzes = {
   general: {
