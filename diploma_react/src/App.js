@@ -10,6 +10,7 @@ import Skills from './pages/Skills';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Grammar from './pages/Grammar';
+import './css/app.css'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -24,26 +25,28 @@ const Home = () => {
 }
 
 const App = () => {
-
   return (
     <Router>
-      <div>
+      <div className="app-container">
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/reading" element={<Reading/>} />
-          <Route path="/listening" element={<Listening />}/>
-          <Route path="/vocabulary"  element={<Vocabulary />}/>
-          <Route path="/skills" element={<Skills />}/>
-          <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<Register />}/>
-          <Route path="/grammar" element={<Grammar />}/>
-        </Routes>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/reading" element={<Reading />} />
+            <Route path="/listening" element={<Listening />} />
+            <Route path="/vocabulary" element={<Vocabulary />} />
+            <Route path="/skills" element={<Skills />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/grammar" element={<Grammar />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </Router>
   );
 }
+
 
 export default App;

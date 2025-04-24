@@ -1,72 +1,35 @@
-import { useEffect, React, useState } from 'react';
-
-import '../css/main.css';
-import reading from '../images/reading.png';
-import listening from '../images/listening.png';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-
-const quizzes = {
-  general: {
-    title: "A Reading",
-    preview: "Прочитайте текст та дайте відповіді на запитання. Якщо інформації недостатньо для позитивної чи негативної відповіді, оберіть `Doesn't say`",
-    questions: [
-      {
-        question: "Timberland employees do not receive a salary for the 40 hours they work on community and social projects",
-        answers: ["Right", "Wrong", "Doesn't say"],
-        correct: 1,
-        errorText: "Right is answer 1",
-      },
-      {
-        question: "Employees at Danone are allowed to spend twelve months working on a project in a developing country",
-        answers: ["Right", "Wrong", "Doesn't say"],
-        correct: 2,
-        errorText: "Right is answer 'Doesn't say'",
-      },
-    ],
-    imageSrc: reading,
-  },
-  literature: {
-    title: "B Reading",
-    preview: "Прочитайте текст та дайте відповіді на запитання.",
-    questions: [
-      {
-        question: "Who wrote '1984'?",
-        answers: ["Orwell", "Huxley", "Shakespeare", "Tolkien"],
-        correct: 0,
-      },
-      {
-        question: "Which genre is 'Hamlet'?",
-        answers: ["Comedy", "Romance", "Tragedy", "Sci-Fi"],
-        correct: 2,
-      },
-    ],
-    imageSrc: listening,
-  },
-};
+import '../css/main.css';
 
 const Grammar = () => {
-
-
-  const [selected, setSelected] = useState(null);
+  const [sections, setSections] = useState([]);  // Храним все секции с category="vocabulary"
+  const [selected, setSelected] = useState(null);  // Храним выбранную секцию
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [answersHistory, setAnswersHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleQuizSelect = (key) => {
-    setSelected(quizzes[key]);
-    setCurrent(0);
-    setScore(0);
-    setShowResult(false);
-    setSelectedAnswer(null);
-    setIsConfirmed(false);
-    setAnswersHistory([]);
-  };
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/section/?category=grammar') // Замените на ваш URL API
+      .then((response) => {
+        setSections(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError('Не вдалося завантажити дані.');
+      });
+  }, []);
 
   const handleConfirm = () => {
-    const correct = selected.questions[current].correct;
+    if (!selected || !selected.questions) return;
+
+    const correct = selected.questions[current].answers.indexOf(selected.questions[current].correct);
     if (selectedAnswer === correct) {
       setScore(score + 1);
     }
@@ -83,6 +46,8 @@ const Grammar = () => {
   };
 
   const handleNext = () => {
+    if (!selected || !selected.questions) return;
+
     const next = current + 1;
     if (next < selected.questions.length) {
       setCurrent(next);
@@ -103,57 +68,60 @@ const Grammar = () => {
     setAnswersHistory([]);
   };
 
-  useEffect(() => {
-    document.title = "Reading skills";
-  }, [] );
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="center-text">
+        <h2>{error}</h2>
+      </div>
+    );
+  }
 
   return (
     <div>
       <main className="main-text">
-        {!selected && (
-            <div className="center-text">
-                <h2>Оберіть розділ, який бажаєте пройти</h2>
-                {Object.entries(quizzes).map(([key, quiz]) => (
-                <div
-                    key={key}
-                    onClick={() => handleQuizSelect(key)}
-                    style={{
-                    display: 'inline-block',
-                    margin: '10px',
-                    cursor: 'pointer',
-                    textAlign: 'center',
-                    }}
-                >
-                    <img
-                    src={quiz.imageSrc}
-                    alt={quiz.title}
-                    style={{height: "200px", width: "600px", display: 'flex', direction: 'column'}}
-                    />
-                    <div>{quiz.title}</div>
-                </div>
-                ))}
-            </div>
+      
+        {!selected && sections.length > 0 && (
+          <div className="center-text">
+            <h2>Оберіть розділ, який бажаєте пройти</h2>
+            {sections.map((section) => (
+              <div
+                key={section.id}
+                onClick={() => setSelected(section)}
+                style={{
+                  display: 'inline-block',
+                  margin: '10px',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                }}
+              >
+                <div>{section.name}</div>
+              </div>
+            ))}
+          </div>
         )}
 
-
-        {selected && !showResult && (
+        {selected && !showResult && selected.questions && (
           <div>
-            <h3>{selected.title}</h3>
-            <p>{selected.preview}</p>
+            <h3>{selected.name}</h3>
+            <p>{selected.description}</p>
             <hr style={{ margin: '20px 0' }} />
 
-            <h3>{selected.questions[current].question}</h3>
+
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
               {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
                 if (isConfirmed) {
-                  if (i === selected.questions[current].correct) {
-                    backgroundColor = '#c8e6c9'; // green
+                  if (i === selected.questions[current].answers.indexOf(selected.questions[current].correct)) {
+                    backgroundColor = '#c8e6c9'; // зеленый
                   } else if (i === selectedAnswer) {
-                    backgroundColor = '#ffcdd2'; // red
+                    backgroundColor = '#ffcdd2'; // красный
                   }
                 } else if (i === selectedAnswer) {
-                  backgroundColor = '#d3eaff'; // selected
+                  backgroundColor = '#d3eaff'; // выбранный
                 }
 
                 return (
@@ -179,23 +147,22 @@ const Grammar = () => {
             </ul>
 
             {!isConfirmed && selectedAnswer !== null && (
-            <button onClick={handleConfirm} className="confirm-btn">
+              <button onClick={handleConfirm} className="confirm-btn">
                 Підтвердити відповідь
-            </button>
+              </button>
             )}
 
-            {isConfirmed && selectedAnswer !== selected.questions[current].correct && (
-            <div style={{ color: 'red', marginTop: '10px', marginBottom: '10px' }}>
+            {isConfirmed && selectedAnswer !== selected.questions[current].answers.indexOf(selected.questions[current].correct) && (
+              <div style={{ color: 'red', marginTop: '10px', marginBottom: '10px' }}>
                 {selected.questions[current].errorText}
-            </div>
+              </div>
             )}
 
             {isConfirmed && (
-            <button onClick={handleNext} className="next-btn">
+              <button onClick={handleNext} className="next-btn">
                 Наступне питання →
-            </button>
+              </button>
             )}
-
           </div>
         )}
 

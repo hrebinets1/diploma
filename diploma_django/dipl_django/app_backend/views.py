@@ -1,6 +1,14 @@
-from django.shortcuts import render
-from .models import Test
+# views.py
+from rest_framework import viewsets
+from .models import Section
+from .serializers import SectionSerializer
 
-def test_list(request):
-    tests = Test.objects.all()  # Получаем все тесты
-    return render(request, 'app_backend/test_list.html', {'tests': tests})
+class SectionViewSet(viewsets.ModelViewSet):
+    serializer_class = SectionSerializer
+
+    def get_queryset(self):
+        queryset = Section.objects.all()
+        category = self.request.query_params.get('category', None)
+        if category:
+            queryset = queryset.filter(category=category)
+        return queryset

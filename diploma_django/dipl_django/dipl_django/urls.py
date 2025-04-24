@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app_backend.urls')),  # <-- подключаем маршруты приложения
+    path('api/', include('app_backend.urls')),
 ]
+

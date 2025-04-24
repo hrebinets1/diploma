@@ -1,31 +1,33 @@
 from django.db import models
 
-class Test(models.Model):
-    title = models.CharField(max_length=255)  # Название теста
-    description = models.TextField()  # Суть теста
-
+class Section(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    choices = [
+        ('vocabulary', 'Vocabulary'), ('reading', 'Reading'),
+        ('listening', 'Listening'), ('grammar', 'Grammar'),
+    ]
+    category = models.CharField(choices=choices, default='vocabulary')
     def __str__(self):
-        return self.title
+        return self.name
 
 class Question(models.Model):
-    test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)  # Связь с тестом
-    text = models.TextField()  # Текст вопроса
+    section = models.ForeignKey(Section, related_name="questions", on_delete=models.CASCADE)
+    question = models.TextField()
+    answers = models.JSONField()
+    correct = models.CharField(max_length=255)
+    errorText = models.TextField()
 
     def __str__(self):
-        return self.text
+        return self.question
 
-class AnswerOption(models.Model):
-    question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)  # Связь с вопросом
-    text = models.CharField(max_length=255)  # Текст ответа
-    is_correct = models.BooleanField(default=False)  # Правильный ли ответ
-    number = models.PositiveIntegerField()  # Номер правильного ответа (например, 1, 2, 3 и т.д.)
-
-    def __str__(self):
-        return self.text
-
-class ErrorMessage(models.Model):
-    question = models.ForeignKey(Question, related_name='error_messages', on_delete=models.CASCADE)  # Связь с вопросом
-    message = models.TextField()  # Сообщение, которое будет выводиться в случае ошибки
+class QuestionListening(models.Model):
+    section = models.ForeignKey(Section, related_name="questions_listening", on_delete=models.CASCADE)
+    videoSrc = models.URLField()
+    question = models.TextField()
+    answers = models.JSONField()
+    correct = models.CharField(max_length=255)
+    errorText = models.TextField()
 
     def __str__(self):
-        return f"Error message for question: {self.question.text}"
+        return self.question
