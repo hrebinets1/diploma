@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../css/main.css';
 
 const Listening = () => {
-  const [sections, setSections] = useState([]); // Храним все секции с category="grammar"
+  const [sections, setSections] = useState([]);
   const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -15,12 +15,12 @@ const Listening = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/section/?category=grammar') 
+    axios.get('http://127.0.0.1:8000/api/section/?category=listening')
       .then((response) => {
         setSections(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         setError('Не вдалося завантажити дані.');
       });
@@ -33,6 +33,7 @@ const Listening = () => {
     if (selectedAnswer === correct) {
       setScore(score + 1);
     }
+
     setAnswersHistory([
       ...answersHistory,
       {
@@ -46,8 +47,6 @@ const Listening = () => {
   };
 
   const handleNext = () => {
-    if (!selected || !selected.questions) return;
-
     const next = current + 1;
     if (next < selected.questions.length) {
       setCurrent(next);
@@ -68,28 +67,15 @@ const Listening = () => {
     setAnswersHistory([]);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return (
-      <div className="center-text">
-        <h2>{error}</h2>
-        <button onClick={reset} style={{ marginTop: '20px' }}>
-          Попробовать снова
-        </button>
-      </div>
-    );
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="center-text"><h2>{error}</h2></div>;
 
   return (
     <div>
       <main className="main-text">
-      
         {!selected && sections.length > 0 && (
           <div className="center-text">
-            <h2>Оберіть розділ, який бажаєте пройти</h2>
+            <h2>Оберіть розділ для прослуховування</h2>
             {sections.map((section) => (
               <div
                 key={section.id}
@@ -113,18 +99,29 @@ const Listening = () => {
             <p>{selected.description}</p>
             <hr style={{ margin: '20px 0' }} />
 
+            <div className="video-container" style={{ marginBottom: '20px' }}>
+              <iframe
+                width="100%"
+                height="315"
+                src={selected.questions[current].videoSrc.replace("watch?v=", "embed/")}
+                title="Listening video"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            </div>
 
+            <p>{selected.questions[current].question}</p>
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
               {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
                 if (isConfirmed) {
                   if (i === selected.questions[current].answers.indexOf(selected.questions[current].correct)) {
-                    backgroundColor = '#c8e6c9'; // зеленый
+                    backgroundColor = '#c8e6c9';
                   } else if (i === selectedAnswer) {
-                    backgroundColor = '#ffcdd2'; // красный
+                    backgroundColor = '#ffcdd2';
                   }
                 } else if (i === selectedAnswer) {
-                  backgroundColor = '#d3eaff'; // выбранный
+                  backgroundColor = '#d3eaff';
                 }
 
                 return (
@@ -171,7 +168,7 @@ const Listening = () => {
 
         {showResult && (
           <div className="center-text">
-            <h3>Результати тесту</h3>
+            <h3>Результати</h3>
             <p>Ви набрали {score} з {selected.questions.length} балів</p>
 
             <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>

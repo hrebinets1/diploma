@@ -4,16 +4,24 @@ from .models import Section, Question, QuestionListening
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = '__all__'
+        fields = ['id', 'question', 'answers', 'correct', 'errorText']
+
+class QuestionListeningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionListening
+        fields = ['id', 'videoSrc', 'question', 'answers', 'correct', 'errorText']
 
 class SectionSerializer(serializers.ModelSerializer):
-    questions = QuestionSerializer(many=True, read_only=True)
+    questions = serializers.SerializerMethodField()
 
     class Meta:
         model = Section
         fields = ['id', 'name', 'description', 'category', 'questions']
 
-class QuestionListeningSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuestionListening
-        fields = '__all__'
+    def get_questions(self, obj):
+        if obj.category == 'listening':
+            qs = obj.questions_listening.all()
+            return QuestionListeningSerializer(qs, many=True).data
+        else:
+            qs = obj.questions.all()
+            return QuestionSerializer(qs, many=True).data
