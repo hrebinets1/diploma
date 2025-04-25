@@ -1,7 +1,10 @@
 # views.py
 from rest_framework import viewsets
 from .models import Section
-from .serializers import SectionSerializer
+from .serializers import SectionSerializer, UserSerializer
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
@@ -12,3 +15,12 @@ class SectionViewSet(viewsets.ModelViewSet):
         if category:
             queryset = queryset.filter(category=category)
         return queryset
+
+@api_view(['POST'])
+def register(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

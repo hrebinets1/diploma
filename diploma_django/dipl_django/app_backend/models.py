@@ -7,7 +7,7 @@ class Section(models.Model):
         ('vocabulary', 'Vocabulary'), ('reading', 'Reading'),
         ('listening', 'Listening'), ('grammar', 'Grammar'),
     ]
-    category = models.CharField(choices=choices, default='vocabulary')
+    category = models.CharField(max_length=20,choices=choices, default='vocabulary')
     def __str__(self):
         return self.name
 

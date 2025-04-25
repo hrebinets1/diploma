@@ -89,3 +89,8 @@
         z-index: 1100;
     }
 }
+
+.style-logout{
+    cursor: pointer;
+    transition: color 0.3s ease;
+}

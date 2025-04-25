@@ -41,12 +41,26 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'app_backend',
+    'rest_framework_simplejwt'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
 
+LANGUAGE_CODE = 'uk'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+USE_I18N = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

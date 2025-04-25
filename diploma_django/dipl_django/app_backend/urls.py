@@ -7,5 +7,6 @@ router = DefaultRouter()
 router.register(r'section', views.SectionViewSet, basename='section')
 
 urlpatterns = [
-    path('', include(router.urls)),  # подключаем маршруты для API
+    path('', include(router.urls)),
+    path('register/', views.register, name='register'),
 ]

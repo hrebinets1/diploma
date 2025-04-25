@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './css/header.css';
 import logo from './images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from './context/AuthContext';
 
 const Header = () => {
     const [isOpen, setOpen] = useState(false);
+    const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        if(window.confirm('Ви дійсно хочете вийти з акаунту?')) {
+            logout();
+            navigate('/');
+        }
+    };
 
     return (
         <header className="header">
@@ -13,9 +23,18 @@ const Header = () => {
                 <Link to='/' className="header-title">Веб-застосунок</Link>
             </div>
 
-            <nav className={`header-nav ${isOpen ? "active" : ""}`}>
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
+            <nav className="header-nav">
+                {!user ? (
+                    <>
+                        <Link to='/login'>Login</Link>
+                        <Link to='/register'>Register</Link>
+                    </>
+                ) : (
+                    <>
+                        <span>Вітаємо!</span>
+                        <span onClick={handleLogout} className="header-logout">Logout</span>
+                    </>
+                )}
                 <Link to='/vocabulary'>Vocabulary</Link>
                 <Link to='/skills'>Skills</Link>
                 <Link to='/grammar'>Grammar</Link>
@@ -26,6 +45,6 @@ const Header = () => {
             </button>
         </header>
     );
-}
+};
 
 export default Header;
