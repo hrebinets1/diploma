@@ -31,7 +31,6 @@ const Header = () => {
                     </>
                 ) : (
                     <>
-                        <span>Вітаємо!</span>
                         <span onClick={handleLogout} className="header-logout">Logout</span>
                     </>
                 )}

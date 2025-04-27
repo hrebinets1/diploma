@@ -107,11 +107,13 @@ const Grammar = () => {
         {selected && !showResult && selected.questions && (
           <div>
             <h3>{selected.name}</h3>
-            <p>{selected.description}</p>
+            <strong>{selected.description}</strong>
+            <p>{selected.questions[current].question}</p>
             <hr style={{ margin: '20px 0' }} />
 
 
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+              
               {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
                 if (isConfirmed) {

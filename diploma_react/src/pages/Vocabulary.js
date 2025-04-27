@@ -3,8 +3,8 @@ import axios from 'axios';
 import '../css/main.css';
 
 const Vocabulary = () => {
-  const [sections, setSections] = useState([]);  // Храним все секции с category="vocabulary"
-  const [selected, setSelected] = useState(null);  // Храним выбранную секцию
+  const [sections, setSections] = useState([]);
+  const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -14,9 +14,8 @@ const Vocabulary = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Загрузка всех секций с category="vocabulary"
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/section/?category=vocabulary') // Замените на ваш URL API
+    axios.get('http://127.0.0.1:8000/api/section/?category=vocabulary')
       .then((response) => {
         setSections(response.data);
         setLoading(false);
@@ -30,19 +29,24 @@ const Vocabulary = () => {
   const handleConfirm = () => {
     if (!selected || !selected.questions) return;
 
-    const correct = selected.questions[current].answers.indexOf(selected.questions[current].correct);
-    if (selectedAnswer === correct) {
+    const currentQuestion = selected.questions[current];
+    const selectedText = currentQuestion.answers[selectedAnswer];
+    const correctText = currentQuestion.correct;
+
+    if (selectedText === correctText) {
       setScore(score + 1);
     }
+
     setAnswersHistory([
       ...answersHistory,
       {
-        question: selected.questions[current].question,
+        question: currentQuestion.question,
         selected: selectedAnswer,
-        correct: correct,
-        answers: selected.questions[current].answers,
+        correct: currentQuestion.answers.indexOf(correctText),
+        answers: currentQuestion.answers,
       },
     ]);
+
     setIsConfirmed(true);
   };
 
@@ -78,7 +82,7 @@ const Vocabulary = () => {
       <div className="center-text">
         <h2>{error}</h2>
         <button onClick={reset} style={{ marginTop: '20px' }}>
-          Попробовать снова
+          Спробувати знову
         </button>
       </div>
     );
@@ -107,25 +111,28 @@ const Vocabulary = () => {
           </div>
         )}
 
-        {selected && !showResult && selected.questions && (
+        {selected && !showResult && selected.questions && selected.questions.length > 0 && (
           <div>
-            <h3>{selected.name}</h3>
-            <p>{selected.description}</p>
-            <hr style={{ margin: '20px 0' }} />
+            <h3>{selected.name}</h3>            
+            <strong>{selected.description}</strong>
+            <p>{selected.questions[current].question}</p>
             
-
+            <hr style={{ margin: '20px 0' }} />
 
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-              {selected.questions[current].answers.map((a, i) => {
+              
+                {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
+                const correctIndex = selected.questions[current].answers.indexOf(selected.questions[current].correct);
+
                 if (isConfirmed) {
-                  if (i === selected.questions[current].answers.indexOf(selected.questions[current].correct)) {
-                    backgroundColor = '#c8e6c9'; // зеленый
+                  if (i === correctIndex) {
+                    backgroundColor = '#c8e6c9';
                   } else if (i === selectedAnswer) {
-                    backgroundColor = '#ffcdd2'; // красный
+                    backgroundColor = '#ffcdd2';
                   }
                 } else if (i === selectedAnswer) {
-                  backgroundColor = '#d3eaff'; // выбранный
+                  backgroundColor = '#d3eaff'; 
                 }
 
                 return (
@@ -167,6 +174,15 @@ const Vocabulary = () => {
                 Наступне питання →
               </button>
             )}
+          </div>
+        )}
+
+        {selected && !showResult && (!selected.questions || selected.questions.length === 0) && (
+          <div className="center-text">
+            <h3>У цьому розділі немає питань.</h3>
+            <button onClick={reset} style={{ marginTop: '20px' }}>
+              До вибору розділу
+            </button>
           </div>
         )}
 
