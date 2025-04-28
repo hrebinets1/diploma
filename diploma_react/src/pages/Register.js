@@ -44,11 +44,11 @@ const Register = () => {
                 } else if (data.email) {
                     setError(data.email);  
                 } else {
-                    setError('Невідомі помилки. Спробуйте ще раз.');
+                    setError('Не вдалося зареєструватись.');
                 }
             }
         } catch (err) {
-            setError('Невірний формат даних. Спробуйте ще раз.');
+            setError('Неправильний формат даних.');
         }
     };
 

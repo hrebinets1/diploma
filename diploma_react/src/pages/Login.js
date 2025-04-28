@@ -33,14 +33,12 @@ const Login = () => {
 
             const data = await response.json();
 
-            // Сохраняем токены в localStorage
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
 
-            // Обновляем контекст (вызываем login)
-            login(data); // Передаем данные в контекст
+            login(data); 
 
-            navigate('/'); // Перенаправляем на главную
+            navigate('/profile'); 
         } catch (err) {
             setError(err.message);
         }

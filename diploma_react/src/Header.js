@@ -31,7 +31,8 @@ const Header = () => {
                     </>
                 ) : (
                     <>
-                        <span onClick={handleLogout} className="header-logout">Logout</span>
+                        <span>Вітаємо!</span>
+                        <span onClick={handleLogout} className="header-logout" style={{ textDecoration: 'underline' }}>Logout</span>
                     </>
                 )}
                 <Link to='/vocabulary'>Vocabulary</Link>

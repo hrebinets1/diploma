@@ -82,23 +82,32 @@ const Grammar = () => {
 
   return (
     <div>
-      <main className="main-text">
+      <main className="main-text" style={{ width: '95%', margin: '0 auto' }}>
       
-        {!selected && sections.length > 0 && (
+      {!selected && sections.length > 0 && (
           <div className="center-text">
-            <h2>Оберіть розділ, який бажаєте пройти</h2>
+            <h2>Оберіть розділ граматики, який бажаєте пройти</h2>
             {sections.map((section) => (
               <div
                 key={section.id}
                 onClick={() => setSelected(section)}
                 style={{
-                  display: 'inline-block',
+                  display: 'flex',   
+                  flexDirection: 'column',  
+                  alignItems: 'center',    
+                  justifyContent: 'center', 
                   margin: '10px',
                   cursor: 'pointer',
                   textAlign: 'center',
                 }}
               >
-                <div>{section.name}</div>
+                {section.image && (
+                  <img
+                    src={`${section.image}`}
+                    alt={section.name}
+                    style={{ width: '65%', height: "250px" , marginBottom: '10px' }}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -107,23 +116,23 @@ const Grammar = () => {
         {selected && !showResult && selected.questions && (
           <div>
             <h3>{selected.name}</h3>
-            <strong>{selected.description}</strong>
-            <p>{selected.questions[current].question}</p>
+            <p>{selected.description}</p>
+            <p>{selected.question}</p>
             <hr style={{ margin: '20px 0' }} />
 
 
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-              
+              <h3>{selected.questions[current].question}</h3>
               {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
                 if (isConfirmed) {
                   if (i === selected.questions[current].answers.indexOf(selected.questions[current].correct)) {
-                    backgroundColor = '#c8e6c9'; // зеленый
+                    backgroundColor = '#c8e6c9';
                   } else if (i === selectedAnswer) {
-                    backgroundColor = '#ffcdd2'; // красный
+                    backgroundColor = '#ffcdd2';
                   }
                 } else if (i === selectedAnswer) {
-                  backgroundColor = '#d3eaff'; // выбранный
+                  backgroundColor = '#d3eaff'; 
                 }
 
                 return (
