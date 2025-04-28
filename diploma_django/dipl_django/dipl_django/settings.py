@@ -48,12 +48,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
 
-LANGUAGE_CODE = 'uk'
-
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
-]
-
 USE_I18N = True
 
 REST_FRAMEWORK = {
@@ -61,6 +55,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+MEDIA_ROOT = BASE_DIR / 'images'
+MEDIA_URL = '/images/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

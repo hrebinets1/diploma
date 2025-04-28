@@ -23,7 +23,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Section
-        fields = ['id', 'name', 'description', 'category', 'questions']
+        fields = ['id', 'name', 'image', 'description', 'category', 'questions']
 
     def get_questions(self, obj):
         if obj.category == 'listening':
