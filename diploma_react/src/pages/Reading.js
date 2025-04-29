@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../css/main.css';
 
 const Reading = () => {
-  const [sections, setSections] = useState([]); 
+  const [sections, setSections] = useState([]);
   const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -13,6 +13,8 @@ const Reading = () => {
   const [answersHistory, setAnswersHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const increasing_score = 1;
+  const isAuthenticated = !!localStorage.getItem('access_token');
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/section/?category=reading')
@@ -20,7 +22,7 @@ const Reading = () => {
         setSections(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         setError('Не вдалося завантажити дані.');
       });
@@ -28,10 +30,11 @@ const Reading = () => {
 
   const handleConfirm = () => {
     if (!selected || !selected.questions) return;
-
+    
     const correct = selected.questions[current].answers.indexOf(selected.questions[current].correct);
     if (selectedAnswer === correct) {
-      setScore(score + 1);
+      const points = selected.questions[current].number_points
+      setScore(score + points);
     }
     setAnswersHistory([
       ...answersHistory,
@@ -40,6 +43,7 @@ const Reading = () => {
         selected: selectedAnswer,
         correct: correct,
         answers: selected.questions[current].answers,
+        number_points: selected.questions[current].number_points,
       },
     ]);
     setIsConfirmed(true);
@@ -85,19 +89,25 @@ const Reading = () => {
 
   return (
     <div>
-      <main className="main-text"  style={{ width: '95%', justifyContent: 'center', margin: '0 auto' }}>
+      <main className="main-text" style={{ width: '95%', justifyContent: 'center', margin: '0 auto' }}>
         {!selected && sections.length > 0 && (
           <div className="center-text">
-            <h2>Оберіть розділ читання, який бажаєте пройти</h2>
+            <h2>Оберіть тест з читання, який бажаєте пройти</h2>
             {sections.map((section) => (
               <div
                 key={section.id}
-                onClick={() => setSelected(section)}
+                onClick={() => {
+                  if (!section.public_test && !isAuthenticated) {
+                    alert('Цей тест доступний лише для авторизованих користувачів.');
+                    return;
+                  }
+                  setSelected(section);
+                }}
                 style={{
-                  display: 'flex',   
-                  flexDirection: 'column',  
-                  alignItems: 'center',    
-                  justifyContent: 'center', 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   margin: '10px',
                   cursor: 'pointer',
                   textAlign: 'center',
@@ -107,7 +117,7 @@ const Reading = () => {
                   <img
                     src={`${section.image}`}
                     alt={section.name}
-                    style={{ width: '65%', height: "250px" , marginBottom: '10px' }}
+                    style={{ width: '65%', height: "250px", marginBottom: '10px' }}
                   />
                 )}
               </div>
@@ -123,7 +133,7 @@ const Reading = () => {
             ))}
             <hr style={{ margin: '20px 0' }} />
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-            <h3>{selected.questions[current].question}</h3>
+              <h3>{selected.questions[current].question}</h3>
               {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
                 if (isConfirmed) {
@@ -164,6 +174,7 @@ const Reading = () => {
               </button>
             )}
 
+
             {isConfirmed && selectedAnswer !== selected.questions[current].answers.indexOf(selected.questions[current].correct) && (
               <div style={{ color: 'red', marginTop: '10px', marginBottom: '10px' }}>
                 {selected.questions[current].errorText}
@@ -181,7 +192,7 @@ const Reading = () => {
         {showResult && (
           <div className="center-text">
             <h3>Результати тесту</h3>
-            <p>Ви набрали {score} з {selected.questions.length} балів</p>
+            <p>Ви набрали {score} з {selected.questions.reduce((acc, q) => acc + (q.number_points || 1), 0)} балів</p>
 
             <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>
               <thead>
@@ -190,7 +201,7 @@ const Reading = () => {
                   <th>Питання</th>
                   <th>Ваша відповідь</th>
                   <th>Правильна відповідь</th>
-                  <th>Результат</th>
+                  <th>Кількість балів</th>
                 </tr>
               </thead>
               <tbody>
@@ -200,7 +211,7 @@ const Reading = () => {
                     <td>{entry.question}</td>
                     <td>{entry.answers[entry.selected]}</td>
                     <td>{entry.answers[entry.correct]}</td>
-                    <td>{entry.selected === entry.correct ? '✅' : '❌'}</td>
+                    <td>{entry.selected === entry.correct ? entry.number_points : '0'}</td>
                   </tr>
                 ))}
               </tbody>

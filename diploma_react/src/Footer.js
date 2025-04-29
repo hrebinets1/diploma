@@ -18,7 +18,7 @@ const Footer = () => {
                 <h4>Skills</h4>
                 <Link to='/reading'>Reading</Link>
                 <Link to='/listening'>Listening</Link>
-                <Link to='/vocabulary'>Vocabulary</Link>
+                <Link to='/grammar'>Grammar</Link>
             </div>
 
             <div className='footer-column'>    
@@ -35,12 +35,6 @@ const Footer = () => {
                 <Link to='/vocabulary'>Vocabulary</Link>
             </div>
 
-            <div className='footer-column'>    
-                <h4>Vocabulary</h4>
-                <Link to='/reading'>Reading</Link>
-                <Link to='/listening'>Listening</Link>
-                <Link to='/vocabulary'>Vocabulary</Link>
-            </div>
 
             <div className="footer-copyright">
                 © 2025 Веб-застосунок для дипломної роботи.

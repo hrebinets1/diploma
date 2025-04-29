@@ -12,6 +12,8 @@ class Section(models.Model):
     ]
     category = models.CharField(max_length=20, choices=choices, default='vocabulary')
 
+    public_test = models.BooleanField(default=True)
+
     def __str__(self):
         return self.name
 
@@ -21,6 +23,7 @@ class QuestionReading(models.Model):
     answers = models.JSONField()
     correct = models.CharField(max_length=255)
     errorText = models.TextField()
+    number_points = models.IntegerField(default=1)
 
     def __str__(self):
         return self.question
@@ -31,6 +34,7 @@ class QuestionGrammar(models.Model):
     answers = models.JSONField()
     correct = models.CharField(max_length=255)
     errorText = models.TextField()
+    number_points = models.IntegerField(default=1)
 
     def __str__(self):
         return self.question
@@ -42,6 +46,7 @@ class QuestionListening(models.Model):
     answers = models.JSONField()
     correct = models.CharField(max_length=255)
     errorText = models.TextField()
+    number_points = models.IntegerField(default=1)
 
     def __str__(self):
         return self.question
@@ -53,6 +58,7 @@ class VocabularyData(models.Model):
     answers = models.JSONField()
     correct = models.CharField(max_length=255)
     errorText = models.TextField()
+    number_points = models.IntegerField(default=1)
 
     def __str__(self):
         return self.question

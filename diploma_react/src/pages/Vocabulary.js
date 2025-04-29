@@ -3,8 +3,8 @@ import axios from 'axios';
 import '../css/main.css';
 
 const Vocabulary = () => {
-  const [sections, setSections] = useState([]);  // Храним все секции с category="vocabulary"
-  const [selected, setSelected] = useState(null);  // Храним выбранную секцию
+  const [sections, setSections] = useState([]);
+  const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -14,13 +14,15 @@ const Vocabulary = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const isAuthenticated = !!localStorage.getItem('access_token');
+
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/section/?category=vocabulary')
       .then((response) => {
         setSections(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         setError('Не вдалося завантажити дані.');
       });
@@ -85,19 +87,25 @@ const Vocabulary = () => {
 
   return (
     <div>
-      <main className="main-text"  style={{ width: '95%', justifyContent: 'center', margin: '0 auto' }}>
+      <main className="main-text" style={{ width: '95%', justifyContent: 'center', margin: '0 auto' }}>
         {!selected && sections.length > 0 && (
           <div className="center-text">
-            <h2>Оберіть розділ словника, який бажаєте пройти</h2>
+            <h2>Оберіть розділ читання, який бажаєте пройти</h2>
             {sections.map((section) => (
               <div
                 key={section.id}
-                onClick={() => setSelected(section)}
+                onClick={() => {
+                  if (!section.public_test && !isAuthenticated) {
+                    alert('Цей тест доступний лише для авторизованих користувачів.');
+                    return;
+                  }
+                  setSelected(section);
+                }}
                 style={{
-                  display: 'flex',   
-                  flexDirection: 'column',  
-                  alignItems: 'center',    
-                  justifyContent: 'center', 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   margin: '10px',
                   cursor: 'pointer',
                   textAlign: 'center',
@@ -107,7 +115,7 @@ const Vocabulary = () => {
                   <img
                     src={`${section.image}`}
                     alt={section.name}
-                    style={{ width: '65%', height: "250px" , marginBottom: '10px' }}
+                    style={{ width: '65%', height: "250px", marginBottom: '10px' }}
                   />
                 )}
               </div>
@@ -118,14 +126,12 @@ const Vocabulary = () => {
         {selected && !showResult && selected.questions && (
           <div>
             <h3>{selected.name}</h3>
-            <p>{selected.description}</p>
-            
+            {selected.description.split(/\n/g).map((paragraph, idx) => (
+              <p key={idx}>{paragraph.trim()}</p>
+            ))}
             <hr style={{ margin: '20px 0' }} />
-            
-
-
             <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-            <h3>{selected.questions[current].question}</h3>
+              <h3>{selected.questions[current].question}</h3>
               {selected.questions[current].answers.map((a, i) => {
                 let backgroundColor = '';
                 if (isConfirmed) {
@@ -161,7 +167,7 @@ const Vocabulary = () => {
             </ul>
 
             {!isConfirmed && selectedAnswer !== null && (
-              <button onClick={handleConfirm} className="confirm-btn">
+              <button onClick={handleConfirm} className="confirm-btn" style={{ marginBottom: '10px' }}>
                 Підтвердити відповідь
               </button>
             )}
@@ -173,7 +179,7 @@ const Vocabulary = () => {
             )}
 
             {isConfirmed && (
-              <button onClick={handleNext} className="next-btn">
+              <button onClick={handleNext} className="next-btn" style={{ marginBottom: '10px' }}>
                 Наступне питання →
               </button>
             )}

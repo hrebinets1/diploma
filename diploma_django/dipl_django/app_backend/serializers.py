@@ -6,24 +6,24 @@ from rest_framework.validators import UniqueValidator
 class QuestionReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionReading
-        fields = ['id', 'question', 'answers', 'correct', 'errorText']
+        fields = ['id', 'question', 'answers', 'correct', 'errorText', 'number_points']
 
 class QuestionGrammarSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionGrammar
-        fields = ['id', 'question', 'answers', 'correct', 'errorText']
+        fields = ['id', 'question', 'answers', 'correct', 'errorText', 'number_points']
 
 class QuestionListeningSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionListening
-        fields = ['id', 'videoSrc', 'question', 'answers', 'correct', 'errorText']
+        fields = ['id', 'videoSrc', 'question', 'answers', 'correct', 'errorText', 'number_points']
 
 class SectionSerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField()
 
     class Meta:
         model = Section
-        fields = ['id', 'name', 'image', 'description', 'category', 'questions']
+        fields = ['id', 'name', 'public_test', 'image', 'description', 'category', 'questions']
 
     def get_questions(self, obj):
         if obj.category == 'listening':
