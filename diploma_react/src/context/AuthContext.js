@@ -12,17 +12,20 @@ export const AuthProvider = ({ children }) => {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 setUser({ username: payload.username });
             } catch (e) {
-                console.error('Ошибка декодирования токена:', e);
+                console.error('Помилка декодування токена:', e);
             }
         }
     }, []);
 
     const login = (data) => {
-        // Сохраняем токены и информацию о пользователе
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
-        const payload = JSON.parse(atob(data.access.split('.')[1]));
-        setUser({ username: payload.username });
+        try {
+            const payload = JSON.parse(atob(data.access.split('.')[1]));
+            setUser({ username: payload.username });
+        } catch (e) {
+            console.error('Помилка декодування токена під час логіну:', e);
+        }
     };
 
     const logout = () => {
@@ -31,8 +34,10 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const isAuthenticated = !!user;
+
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

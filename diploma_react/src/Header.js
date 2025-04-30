@@ -31,7 +31,7 @@ const Header = () => {
                     </>
                 ) : (
                     <>
-                        <span>Вітаємо!</span>
+                        <Link to='/profile'>Профіль</Link>
                         <span onClick={handleLogout} className="header-logout" style={{ textDecoration: 'underline' }}>Logout</span>
                     </>
                 )}

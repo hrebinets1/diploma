@@ -5,6 +5,8 @@ import '../css/login-register.css';
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,6 +25,8 @@ const Register = () => {
             username,
             email,
             password,
+            first_name: firstname,
+            last_name: lastname,
         };
     
         try {
@@ -56,7 +60,7 @@ const Register = () => {
         <div className='container'>
             <h1>Реєстрація</h1>
             <form className='form' onSubmit={handleSubmit}>
-                <label>Впишіть ім'я: </label>
+                <label>Впишіть нікнейм: </label>
                 <input
                     type='text'
                     value={username}
@@ -77,11 +81,26 @@ const Register = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+                
                 <label>Продублюйте пароль: </label>
                 <input
                     type='password'
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+                <label>Впишіть ім'я: </label>
+                <input
+                    type='text'
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                    required
+                />
+                <label>Впишіть прізвище: </label>
+                <input
+                    type='text'
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
                     required
                 />
                 {error && <p style={{ color: 'red' }}>{error}</p>}

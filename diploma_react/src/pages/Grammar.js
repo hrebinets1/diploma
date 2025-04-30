@@ -28,10 +28,11 @@ const Grammar = () => {
 
   const handleConfirm = () => {
     if (!selected || !selected.questions) return;
-
+    
     const correct = selected.questions[current].answers.indexOf(selected.questions[current].correct);
     if (selectedAnswer === correct) {
-      setScore(score + 1);
+      const points = selected.questions[current].number_points
+      setScore(score + points);
     }
     setAnswersHistory([
       ...answersHistory,
@@ -40,6 +41,7 @@ const Grammar = () => {
         selected: selectedAnswer,
         correct: correct,
         answers: selected.questions[current].answers,
+        number_points: selected.questions[current].number_points,
       },
     ]);
     setIsConfirmed(true);
@@ -189,7 +191,7 @@ const Grammar = () => {
                   <th>Питання</th>
                   <th>Ваша відповідь</th>
                   <th>Правильна відповідь</th>
-                  <th>Результат</th>
+                  <th>Кількість балів</th>
                 </tr>
               </thead>
               <tbody>
@@ -199,7 +201,7 @@ const Grammar = () => {
                     <td>{entry.question}</td>
                     <td>{entry.answers[entry.selected]}</td>
                     <td>{entry.answers[entry.correct]}</td>
-                    <td>{entry.selected === entry.correct ? '✅' : '❌'}</td>
+                    <td>{entry.selected === entry.correct ? entry.number_points : '0'}</td>
                   </tr>
                 ))}
               </tbody>

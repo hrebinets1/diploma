@@ -13,7 +13,6 @@ const Reading = () => {
   const [answersHistory, setAnswersHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const increasing_score = 1;
   const isAuthenticated = !!localStorage.getItem('access_token');
 
   useEffect(() => {
