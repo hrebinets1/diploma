@@ -4,9 +4,11 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'section', views.SectionViewSet, basename='section')
+router.register(r'times', views.TimesViewSet, basename='times')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('register/', views.register, name='register'),
     path('get_user', views.get_user, name='get_user')
+
 ]

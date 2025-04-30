@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Section
-from .serializers import SectionSerializer, UserSerializer
+from .models import Section, Times
+from .serializers import SectionSerializer, UserSerializer, TimesSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,6 +15,10 @@ class SectionViewSet(viewsets.ModelViewSet):
         if category:
             queryset = queryset.filter(category=category)
         return queryset
+
+class TimesViewSet(viewsets.ModelViewSet):
+    queryset = Times.objects.all()
+    serializer_class = TimesSerializer
 
 @api_view(['POST'])
 def register(request):

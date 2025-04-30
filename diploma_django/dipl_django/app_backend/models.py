@@ -62,3 +62,45 @@ class VocabularyData(models.Model):
 
     def __str__(self):
         return self.question
+
+class Times(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField()
+    choices = [
+        ('present', 'Present'),
+        ('past', 'Past'),
+        ('future', 'Future'),
+    ]
+    type = models.CharField(max_length=8, choices=choices, default='present')
+
+    def __str__(self):
+        return self.name
+
+class PresentTime(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    formula = models.TextField()
+    examples = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class PastTime(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    formula = models.TextField()
+    examples = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class FutureTime(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    formula = models.TextField()
+    examples = models.TextField()
+
+    def __str__(self):
+        return self.name

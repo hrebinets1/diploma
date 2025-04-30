@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Section, QuestionReading, QuestionGrammar, QuestionListening, VocabularyData
+from .models import Section, Times, QuestionReading, QuestionGrammar, QuestionListening, VocabularyData
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 
@@ -39,6 +39,23 @@ class SectionSerializer(serializers.ModelSerializer):
             qs = obj.vocabulary_data.all()
             return VocabularyDataSerializer(qs, many=True).data
 
+class TimesSerializer(serializers.ModelSerializer):
+    questions = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Times
+        fields = '__all__'
+
+    def get_questions(self, obj):
+        if obj.type == 'present':
+            qs = obj.times_present_data.all()
+            return PresentTimesSerializer(qs, many=True).data
+        elif obj.type == 'past':
+            qs = obj.times_past_data.all()
+            return PastTimesSerializer(qs, many=True).data
+        elif obj.type == 'future':
+            qs = obj.times_future_data.all()
+            return FutureTimesSerializer(qs, many=True).data
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True,
