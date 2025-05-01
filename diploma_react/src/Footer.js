@@ -32,7 +32,7 @@ const Footer = () => {
             </div>
 
             <div className='footer-column'>    
-                <img className="img" src={nuzp} alt="НУЗП" style={{ height: '100%' }} />
+                <img className="img" src={nuzp} alt="НУЗП" style={{ height: '256px', width: '256px' }} />
             </div>
 
 

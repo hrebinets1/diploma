@@ -13,7 +13,7 @@ const Hello = () => {
     }, [] );
 
     return (
-        <div className="max-height">
+        <div className="height-width">
             <div className='main-text'>
                 <h2>Вітаємо Вас на вебзастосунку для вивчення англійської мови!
                 <p>Почни свою подорож у світ англійської з нами.</p>

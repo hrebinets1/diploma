@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import './css/header.css';
 import logo from './images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from './context/AuthContext';
 
 const Header = () => {
-    const [isOpen, setOpen] = useState(false);
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -36,10 +35,6 @@ const Header = () => {
                     </>
                 )}
             </nav>
-
-            <button className='header-button' onClick={() => setOpen(!isOpen)}>
-                ☰
-            </button>
         </header>
     );
 };

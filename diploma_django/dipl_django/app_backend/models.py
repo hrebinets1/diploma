@@ -1,7 +1,7 @@
 from django.db import models
 
 class Section(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     image = models.ImageField()
     choices = [
@@ -64,7 +64,7 @@ class VocabularyData(models.Model):
         return self.question
 
 class PresentTime(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     image = models.ImageField()
     description = models.TextField()
     formula = models.TextField()
@@ -74,7 +74,7 @@ class PresentTime(models.Model):
         return self.name
 
 class PastTime(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     image = models.ImageField()
     description = models.TextField()
     formula = models.TextField()
@@ -85,7 +85,7 @@ class PastTime(models.Model):
 
 
 class FutureTime(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     image = models.ImageField()
     description = models.TextField()
     formula = models.TextField()
