@@ -6,12 +6,13 @@ import About from './pages/About';
 import Reading from './pages/Reading';
 import Vocabulary from './pages/Vocabulary';
 import Listening from './pages/Listening';
-import Skills from './pages/Skills';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Grammar from './pages/Grammar';
 import Profile from './pages/Profile';
+import Times from './pages/Times';
 import './css/app.css'
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
@@ -27,7 +28,7 @@ const Home = () => {
 
 const App = () => {
   return (
-    <AuthProvider> {/* ✅ Обернули всё в контекст */}
+    <AuthProvider>
       <Router>
         <div className="app-container">
           <Header />
@@ -38,11 +39,11 @@ const App = () => {
               <Route path="/reading" element={<Reading />} />
               <Route path="/listening" element={<Listening />} />
               <Route path="/vocabulary" element={<Vocabulary />} />
-              <Route path="/skills" element={<Skills />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/grammar" element={<Grammar />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path='/times' element={<Times />} />
             </Routes>
           </main>
           <Footer />

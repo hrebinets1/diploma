@@ -2,6 +2,7 @@ import React from 'react'
 import './css/footer.css'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
+import nuzp from './images/nuzp.png'
 
 const Footer = () => {
 
@@ -19,6 +20,8 @@ const Footer = () => {
                 <Link to='/reading'>Reading</Link>
                 <Link to='/listening'>Listening</Link>
                 <Link to='/grammar'>Grammar</Link>
+                <Link to='/vocabulary'>Vocabulary</Link>
+                <Link to='/times'>Times</Link>
             </div>
 
             <div className='footer-column'>    
@@ -29,10 +32,7 @@ const Footer = () => {
             </div>
 
             <div className='footer-column'>    
-                <h4>Vocabulary</h4>
-                <Link to='/reading'>Reading</Link>
-                <Link to='/listening'>Listening</Link>
-                <Link to='/vocabulary'>Vocabulary</Link>
+                <img className="img" src={nuzp} alt="НУЗП" style={{ height: '100%' }} />
             </div>
 
 

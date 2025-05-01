@@ -13,6 +13,7 @@ const Listening = () => {
   const [answersHistory, setAnswersHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isAuthenticated = !!localStorage.getItem('access_token');
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/section/?category=listening')
@@ -31,7 +32,7 @@ const Listening = () => {
 
     const correct = selected.questions[current].answers.indexOf(selected.questions[current].correct);
     if (selectedAnswer === correct) {
-      setScore(score + 1);
+      setScore(score + selected.questions[current].number_points); 
     }
 
     setAnswersHistory([
@@ -41,6 +42,7 @@ const Listening = () => {
         selected: selectedAnswer,
         correct: correct,
         answers: selected.questions[current].answers,
+        number_points: selected.questions[current].number_points || 1,
       },
     ]);
     setIsConfirmed(true);
@@ -72,22 +74,37 @@ const Listening = () => {
 
   return (
     <div>
-      <main className="main-text">
-        {!selected && sections.length > 0 && (
+      <main className="main-text" style={{ width: '95%', justifyContent: 'center', margin: '0 auto' }}>
+      {!selected && sections.length > 0 && (
           <div className="center-text">
-            <h2>Оберіть розділ для прослуховування</h2>
+            <h2>Оберіть тест, який бажаєте пройти</h2>
             {sections.map((section) => (
               <div
                 key={section.id}
-                onClick={() => setSelected(section)}
+                onClick={() => {
+                  if (!section.public_test && !isAuthenticated) {
+                    alert('Цей тест доступний лише для авторизованих користувачів.');
+                    return;
+                  }
+                  setSelected(section);
+                }}
                 style={{
-                  display: 'inline-block',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   margin: '10px',
                   cursor: 'pointer',
                   textAlign: 'center',
                 }}
               >
-                <div>{section.name}</div>
+                {section.image && (
+                  <img
+                    src={`${section.image}`}
+                    alt={section.name}
+                    style={{ width: '600px', height: "250px", marginBottom: '10px' }}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -102,7 +119,7 @@ const Listening = () => {
             <div className="video-container" style={{ marginBottom: '20px' }}>
               <iframe
                 width="100%"
-                height="315"
+                height="400"
                 src={selected.questions[current].videoSrc.replace("watch?v=", "embed/")}
                 title="Listening video"
                 frameBorder="0"
@@ -168,8 +185,8 @@ const Listening = () => {
 
         {showResult && (
           <div className="center-text">
-            <h3>Результати</h3>
-            <p>Ви набрали {score} з {selected.questions.length} балів</p>
+            <h3>Результати тесту</h3>
+            <p>Ви набрали {score} з {selected.questions.reduce((acc, q) => acc + (q.number_points || 1), 0)} балів</p>
 
             <table style={{ width: '100%', marginTop: '20px', borderCollapse: 'collapse' }}>
               <thead>
@@ -178,7 +195,7 @@ const Listening = () => {
                   <th>Питання</th>
                   <th>Ваша відповідь</th>
                   <th>Правильна відповідь</th>
-                  <th>Результат</th>
+                  <th>Кількість балів</th>
                 </tr>
               </thead>
               <tbody>
@@ -188,7 +205,7 @@ const Listening = () => {
                     <td>{entry.question}</td>
                     <td>{entry.answers[entry.selected]}</td>
                     <td>{entry.answers[entry.correct]}</td>
-                    <td>{entry.selected === entry.correct ? '✅' : '❌'}</td>
+                    <td>{entry.selected === entry.correct ? entry.number_points : '0'}</td>
                   </tr>
                 ))}
               </tbody>

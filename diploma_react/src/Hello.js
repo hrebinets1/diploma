@@ -5,6 +5,7 @@ import grammar from './images/grammar.png'
 import { Link } from 'react-router-dom';
 import './css/main-text.css'
 import vocabulary from './images/vocabulary.png'
+import times from './images/learning_times.png'
 
 const Hello = () => {
     useEffect(() => {
@@ -21,16 +22,19 @@ const Hello = () => {
                 </h2>
             </div>
                 
-            <div className='main-text-img'>   
+            <div className='main-text-img'>  
+                <h2>Для початку Ви можете обрати один з розділів, для цього необхідно натиснути на фотографію.</h2> 
                 <h2>Читання</h2>
-                <Link to='/reading'><img className="img" src={reading} alt="Reading" style={{height: "200px", width: "600px"}}/></Link>
+                <Link to='/reading'><img className="img" src={reading} alt="Reading"/></Link>
                 <h2>Аудіювання</h2>
-                <Link to='/listening'><img className="img" src={listening} alt="Listening" style={{height: "200px", width: "600px"}}/></Link>
+                <Link to='/listening'><img className="img" src={listening} alt="Listening"/></Link>
                 <h2>Граматика</h2>
-                <Link to='/grammar'><img className="img" src={grammar} alt="Grammar" style={{height: "200px", width: "600px"}}/></Link>
+                <Link to='/grammar'><img className="img" src={grammar} alt="Grammar"/></Link>
                 <h2>Словник</h2>
-                <Link to='/vocabulary'><img className="img" src={vocabulary} alt="vocabulary" style={{height: "200px", width: "600px"}}/></Link>
-            </div>
+                <Link to='/vocabulary'><img className="img" src={vocabulary} alt="vocabulary"/></Link>
+                <h2>Часи</h2>
+                <Link to='/times'><img className="img" src={times} alt="Times"/></Link>
+                </div>
         </div>
         
     );

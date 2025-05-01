@@ -35,9 +35,6 @@ const Header = () => {
                         <span onClick={handleLogout} className="header-logout" style={{ textDecoration: 'underline' }}>Logout</span>
                     </>
                 )}
-                <Link to='/vocabulary'>Vocabulary</Link>
-                <Link to='/skills'>Skills</Link>
-                <Link to='/grammar'>Grammar</Link>
             </nav>
 
             <button className='header-button' onClick={() => setOpen(!isOpen)}>

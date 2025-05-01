@@ -1,14 +1,12 @@
 from rest_framework import viewsets
-from .models import Section, Times
-from .serializers import SectionSerializer, UserSerializer, TimesSerializer
+from .models import *
+from .serializers import *
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth.models import User
 
 class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
-
     def get_queryset(self):
         queryset = Section.objects.all()
         category = self.request.query_params.get('category', None)
@@ -16,9 +14,17 @@ class SectionViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(category=category)
         return queryset
 
-class TimesViewSet(viewsets.ModelViewSet):
-    queryset = Times.objects.all()
-    serializer_class = TimesSerializer
+class PresentTimeViewSet(viewsets.ModelViewSet):
+    queryset = PresentTime.objects.all()
+    serializer_class = PresentTimesSerializer
+
+class PastTimeViewSet(viewsets.ModelViewSet):
+    queryset = PastTime.objects.all()
+    serializer_class = PastTimesSerializer
+
+class FutureTimeViewSet(viewsets.ModelViewSet):
+    queryset = FutureTime.objects.all()
+    serializer_class = FutureTimesSerializer
 
 @api_view(['POST'])
 def register(request):
@@ -35,8 +41,4 @@ def get_user(request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
     else:
-        return Response({'detail': 'Authentication credentials were not provided.'},
-                         status=status.HTTP_401_UNAUTHORIZED)
-
-
-
+        return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)

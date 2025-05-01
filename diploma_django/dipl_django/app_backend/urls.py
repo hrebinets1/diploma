@@ -4,7 +4,9 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'section', views.SectionViewSet, basename='section')
-router.register(r'times', views.TimesViewSet, basename='times')
+router.register(r'present-time', views.PresentTimeViewSet)
+router.register(r'past-time', views.PastTimeViewSet)
+router.register(r'future-time', views.FutureTimeViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

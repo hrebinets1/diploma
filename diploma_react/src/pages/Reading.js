@@ -29,12 +29,12 @@ const Reading = () => {
 
   const handleConfirm = () => {
     if (!selected || !selected.questions) return;
-    
+
     const correct = selected.questions[current].answers.indexOf(selected.questions[current].correct);
     if (selectedAnswer === correct) {
-      const points = selected.questions[current].number_points
-      setScore(score + points);
+      setScore(score + selected.questions[current].number_points);
     }
+    
     setAnswersHistory([
       ...answersHistory,
       {

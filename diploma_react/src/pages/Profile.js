@@ -64,7 +64,7 @@ const Profile = () => {
             <h3 style={{ textAlign: "center" }}>
                 Вітаємо, {sections.first_name} {sections.last_name}!
             </h3>
-            <Link to="/skills" className="btn btn-primary">Перейти до тестування</Link>
+            <Link to="/" className="btn btn-primary">Перейти до тестування</Link>
         </div>
     );
 };
