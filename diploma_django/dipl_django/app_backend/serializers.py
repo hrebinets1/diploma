@@ -41,30 +41,18 @@ class SectionSerializer(serializers.ModelSerializer):
             return VocabularyDataSerializer(qs, many=True).data
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True,
-        error_messages={
-            'required': "Ви не вказали пароль."
-        }
-    )
+    password = serializers.CharField(write_only=True, required=True)
     username = serializers.CharField(required=True,
-        error_messages={
-            'required': "Ви не вказали ім'я."
-        },
         validators=[
             UniqueValidator(
-                queryset=User.objects.all(),
-                message="Це ім'я користувача вже зайнято."
+                queryset=User.objects.all(), message="Даний нікнейм вже зайнято."
             )
         ]
     )
     email = serializers.EmailField(required=True,
-        error_messages={
-            'required': "Email обязателен для заполнения."
-        },
         validators=[
             UniqueValidator(
-                queryset=User.objects.all(),
-                message="Цей email вже зареєстрований."
+                queryset=User.objects.all(), message="Цей email вже зареєстрований."
             )
         ]
     )

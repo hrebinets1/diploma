@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './Header';  
 import Footer from './Footer';
 import Hello from './Hello';
-import About from './pages/About';
 import Reading from './pages/Reading';
 import Vocabulary from './pages/Vocabulary';
 import Listening from './pages/Listening';
@@ -35,7 +34,6 @@ const App = () => {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
               <Route path="/reading" element={<Reading />} />
               <Route path="/listening" element={<Listening />} />
               <Route path="/vocabulary" element={<Vocabulary />} />

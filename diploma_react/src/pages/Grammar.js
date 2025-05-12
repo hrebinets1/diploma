@@ -3,8 +3,8 @@ import axios from 'axios';
 import '../css/main.css';
 
 const Grammar = () => {
-  const [sections, setSections] = useState([]);  // Храним все секции с category="vocabulary"
-  const [selected, setSelected] = useState(null);  // Храним выбранную секцию
+  const [sections, setSections] = useState([]);  
+  const [selected, setSelected] = useState(null); 
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -15,7 +15,7 @@ const Grammar = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/section/?category=grammar') // Замените на ваш URL API
+    axios.get('http://127.0.0.1:8000/api/section/?category=grammar') 
       .then((response) => {
         setSections(response.data);
         setLoading(false);

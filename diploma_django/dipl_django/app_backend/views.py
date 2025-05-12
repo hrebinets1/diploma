@@ -1,9 +1,9 @@
 from rest_framework import viewsets
-from .models import *
 from .serializers import *
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
@@ -36,9 +36,7 @@ def register(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_user(request):
-    if request.user.is_authenticated:
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
-    else:
-        return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../css/main.css";
 import present_times from '../images/present_times.png';
+import past_times from '../images/past_times.png';
+import future_times from '../images/future_times.png';
 
 const Times = () => {
   const [presentTimes, setPresentTimes] = useState([]);
@@ -62,24 +64,24 @@ const Times = () => {
       <h2 style={{ textAlign: "center" }}>Часи</h2>
 
       {stage === "categories" && (
-        <div className="main-text-img">
+        <div className="main-text-img" style={{ marginBottom: "10px" }}>
           <div onClick={() => handleCategoryClick("present")}>
             {present_times && <img src={present_times} alt="Present" />}
           </div>
           <div onClick={() => handleCategoryClick("past")}>
-            {pastTimes[0]?.image && <img src={pastTimes[0].image} alt="Past" />}
+            {past_times && <img src={past_times} alt="Past" />}
           </div>
           <div onClick={() => handleCategoryClick("future")}>
-            {futureTimes[0]?.image && <img src={futureTimes[0].image} alt="Future" />}
+            {future_times && <img src={future_times} alt="Future" />}
 
           </div>
         </div>
       )}
 
       {stage === "list" && (
-        <div>
+        <div >
           <h3 style={{ textAlign: "center" }}>Оберіть час</h3>
-          <div className="main-text-img">
+          <div className="main-text-img" style={{ marginBottom: "10px" }}>
             {getTimesByCategory(selectedCategory).map((time) => (
               <div key={time.id} onClick={() => handleTimeClick(time)}>
                 {time.image && <img src={time.image} alt={time.name} />}

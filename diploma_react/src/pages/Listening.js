@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import '../css/main.css';
+import AuthContext from '../context/AuthContext'; 
+
+
+
 
 const Listening = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   const [sections, setSections] = useState([]);
   const [selected, setSelected] = useState(null);
   const [current, setCurrent] = useState(0);
@@ -13,9 +18,9 @@ const Listening = () => {
   const [answersHistory, setAnswersHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const isAuthenticated = !!localStorage.getItem('access_token');
 
   useEffect(() => {
+    
     axios.get('http://127.0.0.1:8000/api/section/?category=listening')
       .then((response) => {
         setSections(response.data);
@@ -116,13 +121,15 @@ const Listening = () => {
             <p>{selected.description}</p>
             <hr style={{ margin: '20px 0' }} />
 
-            <div className="video-container" style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px' }}>
               <iframe
-                width="100%"
-                height="400"
+              justifyContent="center"
+                style={{ margin: '0 auto', display: 'block' }}
+                width="80%"
+                height="300px"
+                padding-bottom="56.25%"
                 src={selected.questions[current].videoSrc.replace("watch?v=", "embed/")}
                 title="Listening video"
-                frameBorder="0"
                 allowFullScreen
               ></iframe>
             </div>

@@ -25,8 +25,8 @@ const Header = () => {
             <nav className="header-nav">
                 {!user ? (
                     <>
-                        <Link to='/login'>Login</Link>
-                        <Link to='/register'>Register</Link>
+                        <Link to='/login'>Авторизація</Link>
+                        <Link to='/register'>Реєстрація</Link>
                     </>
                 ) : (
                     <>

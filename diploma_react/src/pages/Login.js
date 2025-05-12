@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../css/login-register.css';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext'; // Добавляем контекст
+import AuthContext from '../context/AuthContext'; 
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext); // Доступ к login из контекста
+    const { login } = useContext(AuthContext);
 
     useEffect(() => {
         document.title = "Авторизація";
@@ -28,7 +28,7 @@ const Login = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Неправильне ім\'я користувача або пароль');
+                throw new Error('Неправильний нікнейм користувача або пароль');
             }
 
             const data = await response.json();

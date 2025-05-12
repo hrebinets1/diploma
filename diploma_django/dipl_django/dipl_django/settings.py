@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'app_backend',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -50,10 +51,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 SIMPLE_JWT = {
-     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
      'REFRESH_TOKEN_LIFETIME': timedelta(days=4),
-     'ROTATE_REFRESH_TOKENS': True,
-     'BLACKLIST_AFTER_ROTATION': True
 }
 USE_I18N = True
 
